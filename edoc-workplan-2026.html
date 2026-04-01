@@ -492,7 +492,25 @@ body { display:flex; flex-direction:column; align-items:center; gap:28px; paddin
   </div>
   <div class="slide-body">
 
-    <div class="strat-grid">
+    <!-- 跨議題配對：單行 banner -->
+    <div style="background:var(--pale);border:1.5px solid var(--lavender);border-radius:8px;padding:7px 14px;flex-shrink:0;margin-bottom:8px;display:flex;align-items:center;gap:12px;">
+      <div style="font-size:16px;flex-shrink:0;">🔀</div>
+      <div style="font-size:13px;font-weight:700;color:var(--dark);flex-shrink:0;white-space:nowrap;">跨議題配對</div>
+      <div style="font-size:12px;color:var(--gray);flex:1;">部分企業橫跨多個議題，上下半年各發一封不同主題，間距至少 3–4 個月，每家每年仍以 2 封為上限。</div>
+      <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;border-left:1.5px solid var(--lavender);padding-left:12px;">
+        <div style="font-size:12px;font-weight:700;color:var(--ink);">台達電</div>
+        <div style="font-size:11px;background:#EBF5F5;color:#1A7A78;border:1px solid #1A7A78;border-radius:4px;padding:1px 6px;white-space:nowrap;">💧 3/22</div>
+        <div style="font-size:11px;color:var(--gray);">+</div>
+        <div style="font-size:11px;background:#EBF0F5;color:#1A4A70;border:1px solid #1A4A70;border-radius:4px;padding:1px 6px;white-space:nowrap;">📚 6/16</div>
+        <div style="width:1px;background:var(--lavender);height:14px;margin:0 4px;"></div>
+        <div style="font-size:12px;font-weight:700;color:var(--ink);">聯發科</div>
+        <div style="font-size:11px;background:var(--pale);color:var(--grape);border:1px solid var(--grape);border-radius:4px;padding:1px 6px;white-space:nowrap;">💜 3/8</div>
+        <div style="font-size:11px;color:var(--gray);">+</div>
+        <div style="font-size:11px;background:#EBF5F5;color:#1A7A78;border:1px solid #1A7A78;border-radius:4px;padding:1px 6px;white-space:nowrap;">💧 11/19</div>
+      </div>
+    </div>
+
+    <div class="strat-grid" style="flex:1;min-height:0;">
 
       <div class="strat-card">
         <div class="strat-head" style="background:#1A7A78;">
@@ -500,18 +518,12 @@ body { display:flex; flex-direction:column; align-items:center; gap:28px; paddin
           <div class="strat-target">水務公司・科技業・食品飲料業（共約 38 家）</div>
         </div>
         <div class="strat-body">
-          <div class="strat-date-row">
-            <div class="strat-badge" style="background:#1A7A78;">3/22</div>
-            <div class="strat-ev-name">世界水資源日</div>
-          </div>
-          <div class="strat-date-row">
-            <div class="strat-badge" style="background:#1A7A78;">11/19</div>
-            <div class="strat-ev-name">世界廁所日</div>
-          </div>
+          <div class="strat-date-row"><div class="strat-badge" style="background:#1A7A78;">3/22</div><div class="strat-ev-name">世界水資源日</div></div>
+          <div class="strat-date-row"><div class="strat-badge" style="background:#1A7A78;">11/19</div><div class="strat-ev-name">世界廁所日</div></div>
           <div class="strat-divider"></div>
-          <div style="font-size:12px;color:var(--ink);font-weight:600;margin-bottom:3px;">企業方案</div>
-          <div style="font-size:12px;color:var(--gray);margin-bottom:4px;">🔵 鑿新井 <span style="color:var(--grape);font-weight:700;">NT$600,000</span>／口　🔵 修繕水井 <span style="color:var(--grape);font-weight:700;">NT$100,000</span>／口</div>
-          <div style="font-size:11px;color:#1A7A78;font-weight:600;">Top 3：台達電子・太古可口可樂・黑松</div>
+          <div style="font-size:12px;color:var(--ink);font-weight:600;margin-bottom:2px;">企業方案</div>
+          <div style="font-size:12px;color:var(--gray);margin-bottom:3px;">🔵 鑿新井 <span style="color:var(--grape);font-weight:700;">NT$600,000</span>／口　🔵 修繕水井 <span style="color:var(--grape);font-weight:700;">NT$100,000</span>／口</div>
+          <div style="font-size:12px;color:#1A7A78;font-weight:600;">Top 3：台達電子・太古可口可樂・黑松</div>
         </div>
       </div>
 
@@ -521,19 +533,12 @@ body { display:flex; flex-direction:column; align-items:center; gap:28px; paddin
           <div class="strat-target">文教基金會・科技業 CSR・出版業（共約 99 家）</div>
         </div>
         <div class="strat-body">
-          <div class="strat-date-row">
-            <div class="strat-badge" style="background:#1A4A70;">6/16</div>
-            <div class="strat-ev-name">非洲兒童日</div>
-          </div>
-          <div class="strat-date-row">
-            <div class="strat-badge" style="background:#1A4A70;">10/11</div>
-            <div class="strat-ev-name">國際女孩日</div>
-            <div class="strat-avoid">⚠️ 避零售</div>
-          </div>
+          <div class="strat-date-row"><div class="strat-badge" style="background:#1A4A70;">6/16</div><div class="strat-ev-name">非洲兒童日</div></div>
+          <div class="strat-date-row"><div class="strat-badge" style="background:#1A4A70;">10/11</div><div class="strat-ev-name">國際女孩日</div><div class="strat-avoid">⚠️ 避零售</div></div>
           <div class="strat-divider"></div>
-          <div style="font-size:12px;color:var(--ink);font-weight:600;margin-bottom:3px;">企業方案</div>
-          <div style="font-size:12px;color:var(--gray);margin-bottom:4px;">🔵 房角石計畫（教室整建＋太陽能）<span style="color:var(--grape);font-weight:700;"> NT$500,000</span>／間</div>
-          <div style="font-size:11px;color:#1A4A70;font-weight:600;">Top 3：台積電文教基金會・天下文化・台達電</div>
+          <div style="font-size:12px;color:var(--ink);font-weight:600;margin-bottom:2px;">企業方案</div>
+          <div style="font-size:12px;color:var(--gray);margin-bottom:3px;">🔵 房角石計畫（教室整建＋太陽能）<span style="color:var(--grape);font-weight:700;"> NT$500,000</span>／間</div>
+          <div style="font-size:12px;color:#1A4A70;font-weight:600;">Top 3：台積電文教基金會・天下文化・台達電</div>
         </div>
       </div>
 
@@ -543,19 +548,12 @@ body { display:flex; flex-direction:column; align-items:center; gap:28px; paddin
           <div class="strat-target">農業科技・食品業・ESG 企業（共約 11 家）</div>
         </div>
         <div class="strat-body">
-          <div class="strat-date-row">
-            <div class="strat-badge" style="background:var(--amber);">4/22</div>
-            <div class="strat-ev-name">地球日</div>
-          </div>
-          <div class="strat-date-row">
-            <div class="strat-badge" style="background:var(--amber);">10/17</div>
-            <div class="strat-ev-name">消除貧困日</div>
-            <div class="strat-avoid">⚠️ 避零售</div>
-          </div>
+          <div class="strat-date-row"><div class="strat-badge" style="background:var(--amber);">4/22</div><div class="strat-ev-name">地球日</div></div>
+          <div class="strat-date-row"><div class="strat-badge" style="background:var(--amber);">10/17</div><div class="strat-ev-name">消除貧困日</div><div class="strat-avoid">⚠️ 避零售</div></div>
           <div class="strat-divider"></div>
-          <div style="font-size:12px;color:var(--ink);font-weight:600;margin-bottom:3px;">企業方案</div>
-          <div style="font-size:12px;color:var(--gray);margin-bottom:4px;">🔵 待用課程 100 份 <span style="color:var(--grape);font-weight:700;">NT$40,000</span>（每份 NT$400）</div>
-          <div style="font-size:11px;color:var(--amber);font-weight:600;">Top 3：統一超商・興農股份・卜蜂企業</div>
+          <div style="font-size:12px;color:var(--ink);font-weight:600;margin-bottom:2px;">企業方案</div>
+          <div style="font-size:12px;color:var(--gray);margin-bottom:3px;">🔵 待用課程 100 份 <span style="color:var(--grape);font-weight:700;">NT$40,000</span>（每份 NT$400）</div>
+          <div style="font-size:12px;color:var(--amber);font-weight:600;">Top 3：統一超商・興農股份・卜蜂企業</div>
         </div>
       </div>
 
@@ -565,19 +563,12 @@ body { display:flex; flex-direction:column; align-items:center; gap:28px; paddin
           <div class="strat-target">公益基金會・金融業・科技業（共約 17 家）</div>
         </div>
         <div class="strat-body">
-          <div class="strat-date-row">
-            <div class="strat-badge" style="background:var(--grape);">3/8</div>
-            <div class="strat-ev-name">國際婦女節</div>
-          </div>
-          <div class="strat-date-row">
-            <div class="strat-badge" style="background:var(--grape);">11/25</div>
-            <div class="strat-ev-name">消除婦女暴力日</div>
-            <div class="strat-avoid">⚠️ 避美妝</div>
-          </div>
+          <div class="strat-date-row"><div class="strat-badge" style="background:var(--grape);">3/8</div><div class="strat-ev-name">國際婦女節</div></div>
+          <div class="strat-date-row"><div class="strat-badge" style="background:var(--grape);">11/25</div><div class="strat-ev-name">消除婦女暴力日</div><div class="strat-avoid">⚠️ 避美妝</div></div>
           <div class="strat-divider"></div>
-          <div style="font-size:12px;color:var(--ink);font-weight:600;margin-bottom:3px;">企業方案</div>
-          <div style="font-size:12px;color:var(--gray);margin-bottom:4px;">🔵 衛生棉工作坊 10 場 <span style="color:var(--grape);font-weight:700;">NT$200,000</span></div>
-          <div style="font-size:11px;color:var(--grape);font-weight:600;">Top 3：聯發科技・遠傳電信・花王企業</div>
+          <div style="font-size:12px;color:var(--ink);font-weight:600;margin-bottom:2px;">企業方案</div>
+          <div style="font-size:12px;color:var(--gray);margin-bottom:3px;">🔵 衛生棉工作坊 10 場 <span style="color:var(--grape);font-weight:700;">NT$200,000</span></div>
+          <div style="font-size:12px;color:var(--grape);font-weight:600;">Top 3：聯發科技・遠傳電信・花王企業</div>
         </div>
       </div>
 
