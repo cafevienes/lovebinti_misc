@@ -206,6 +206,211 @@ body { display:flex; flex-direction:column; align-items:center; gap:28px; paddin
 .strat-avoid { font-size:12px;color:#B05000;background:#FFF3E8;border-radius:3px;padding:2px 7px;border:1px solid #F0C090;white-space:nowrap; }
 .strat-divider { height:1px;background:var(--line);margin:2px 0; }
 
+
+
+/* ── Event tooltip ─────────────────────────────────────────────────── */
+#ev-tooltip {
+  position: fixed;
+  z-index: 99999;
+  max-width: 280px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(46,16,64,.22), 0 2px 8px rgba(0,0,0,.12);
+  border: 1.5px solid var(--lavender);
+  padding: 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(6px) scale(.97);
+  transition: opacity .2s ease, transform .2s ease;
+}
+#ev-tooltip.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+#ev-tooltip-head {
+  padding: 10px 14px 8px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+#ev-tooltip-date {
+  font-size: 15px;
+  font-weight: 800;
+  color: white;
+}
+#ev-tooltip-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: white;
+  flex: 1;
+}
+#ev-tooltip-cat {
+  font-size: 11px;
+  color: rgba(255,255,255,.75);
+  padding: 2px 8px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,.35);
+  white-space: nowrap;
+}
+#ev-tooltip-body {
+  padding: 10px 14px 12px;
+  font-size: 13px;
+  color: var(--gray);
+  line-height: 1.65;
+}
+#ev-tooltip-close {
+  position: absolute;
+  top: 8px; right: 10px;
+  font-size: 16px;
+  color: rgba(255,255,255,.7);
+  cursor: pointer;
+  background: none;
+  border: none;
+  line-height: 1;
+  padding: 2px 4px;
+  border-radius: 4px;
+  pointer-events: auto;
+}
+#ev-tooltip-close:hover { color: white; background: rgba(255,255,255,.15); }
+.mo-ev { cursor: pointer; transition: transform .15s, box-shadow .15s; }
+.mo-ev:hover { transform: scale(1.05); box-shadow: 0 3px 10px rgba(0,0,0,.15); }
+
+/* ═══ INTERACTIVE STYLES ══════════════════════════════════════════════ */
+
+/* Card hover lift */
+.role-card, .strat-card, .sop-step {
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.role-card:hover, .sop-step:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(123,33,119,.15);
+  cursor: pointer;
+}
+
+/* SOP step done state */
+.sop-step.done .sop-head {
+  opacity: .5;
+}
+.sop-step.done .sop-step-num {
+  background: #2DA44E !important;
+}
+.sop-step.done .sop-step-num::after {
+  content: '✓';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 900;
+  color: white;
+}
+.sop-step.done .sop-step-num {
+  position: relative;
+  color: transparent;
+}
+.sop-step.done .sop-body { opacity: .45; }
+
+/* Month card interactive */
+.mo-col-card {
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  cursor: pointer;
+}
+.mo-col-card:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 5px 16px rgba(123,33,119,.18);
+  z-index: 2;
+}
+.mo-col-card.focused {
+  border-color: var(--grape) !important;
+  box-shadow: 0 0 0 2.5px var(--grape), 0 5px 16px rgba(123,33,119,.2);
+  transform: translateY(-3px) scale(1.04);
+  z-index: 3;
+}
+
+/* Issue card (S01) click pulse */
+@keyframes numPulse {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.22); color: var(--grape); }
+  100% { transform: scale(1); }
+}
+.num-pulse { animation: numPulse .5s ease; }
+
+/* S03 cross-issue example chips */
+@keyframes chipGlow {
+  0%,100% { box-shadow: none; }
+  50%      { box-shadow: 0 0 0 3px var(--grape); }
+}
+.chip-glow { animation: chipGlow .6s ease 2; }
+
+/* S06 architecture highlight */
+.arch-section {
+  transition: border-left-color .2s ease, background .2s ease;
+}
+.arch-section.lit {
+  background: rgba(123,33,119,.06) !important;
+  border-radius: 6px;
+}
+
+/* Presentation nav bar */
+#pres-nav {
+  position: fixed;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(46,16,64,.88);
+  backdrop-filter: blur(10px);
+  border-radius: 40px;
+  padding: 8px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  z-index: 9999;
+  box-shadow: 0 4px 24px rgba(0,0,0,.35);
+  border: 1px solid rgba(200,140,192,.3);
+  user-select: none;
+}
+#pres-nav button {
+  background: none;
+  border: none;
+  color: var(--lavender);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 6px;
+  transition: background .15s;
+}
+#pres-nav button:hover { background: rgba(200,140,192,.2); }
+#pres-nav button:disabled { opacity: .3; cursor: default; }
+.pn-dots { display: flex; gap: 6px; align-items: center; }
+.pn-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(200,140,192,.35);
+  transition: background .2s, transform .2s;
+  cursor: pointer;
+}
+.pn-dot.active {
+  background: var(--lavender);
+  transform: scale(1.35);
+}
+#pn-counter {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--lavender);
+  min-width: 42px;
+  text-align: center;
+}
+
+/* Slide entrance animation */
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.slide.visible .slide-body {
+  animation: slideIn .45s ease both;
+}
 </style>
 </head>
 <body>
@@ -852,6 +1057,326 @@ body { display:flex; flex-direction:column; align-items:center; gap:28px; paddin
   </div>
 </div>
 
+
+
+<script>
+(function() {
+
+// ── 1. PRESENTATION NAV ──────────────────────────────────────────────
+const slides = Array.from(document.querySelectorAll('.slide'));
+let cur = 0;
+
+// Build nav bar
+const nav = document.createElement('div');
+nav.id = 'pres-nav';
+const dotsHTML = slides.map((_,i) =>
+  `<div class="pn-dot${i===0?' active':''}" data-i="${i}"></div>`
+).join('');
+nav.innerHTML = `
+  <button id="pn-prev" title="上一頁 ←">◀</button>
+  <div class="pn-dots">${dotsHTML}</div>
+  <span id="pn-counter">1 / ${slides.length}</span>
+  <button id="pn-next" title="下一頁 →">▶</button>
+`;
+document.body.appendChild(nav);
+
+function goTo(n) {
+  cur = Math.max(0, Math.min(n, slides.length - 1));
+  slides[cur].scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.getElementById('pn-counter').textContent = (cur+1) + ' / ' + slides.length;
+  document.querySelectorAll('.pn-dot').forEach((d,i) =>
+    d.classList.toggle('active', i === cur));
+  document.getElementById('pn-prev').disabled = cur === 0;
+  document.getElementById('pn-next').disabled = cur === slides.length - 1;
+  // Trigger entrance animation
+  slides[cur].classList.add('visible');
+}
+
+document.getElementById('pn-prev').onclick = () => goTo(cur - 1);
+document.getElementById('pn-next').onclick = () => goTo(cur + 1);
+document.querySelectorAll('.pn-dot').forEach(d =>
+  d.addEventListener('click', () => goTo(+d.dataset.i)));
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); goTo(cur+1); }
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   { e.preventDefault(); goTo(cur-1); }
+});
+
+// Track current slide via IntersectionObserver
+const io = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && entry.intersectionRatio > .5) {
+      const i = slides.indexOf(entry.target);
+      if (i !== -1 && i !== cur) {
+        cur = i;
+        document.getElementById('pn-counter').textContent = (cur+1) + ' / ' + slides.length;
+        document.querySelectorAll('.pn-dot').forEach((d,j) =>
+          d.classList.toggle('active', j === cur));
+        document.getElementById('pn-prev').disabled = cur === 0;
+        document.getElementById('pn-next').disabled = cur === slides.length - 1;
+        entry.target.classList.add('visible');
+      }
+    }
+  });
+}, { threshold: .5 });
+slides.forEach(s => io.observe(s));
+goTo(0);
+
+// ── 2. S01: CLICK ISSUE CARDS → number pulse ─────────────────────────
+document.querySelectorAll('.slide:nth-child(2) [style*="font-size:30px"]').forEach(el => {
+  const card = el.closest('[style*="border-radius:8px"]');
+  if (!card) return;
+  card.style.cursor = 'pointer';
+  card.addEventListener('click', () => {
+    el.classList.remove('num-pulse');
+    void el.offsetWidth; // reflow
+    el.classList.add('num-pulse');
+    el.addEventListener('animationend', () => el.classList.remove('num-pulse'), {once:true});
+  });
+});
+
+// ── 3. S02: MONTH CARDS → click to focus ─────────────────────────────
+// Add class mo-col-card to all month cells in S02
+const s02 = slides[2]; // 3rd slide = S02 (index: cover=0, s01=1, s02=2)
+if (s02) {
+  s02.querySelectorAll('[style*="border-radius:8px"][style*="border:1px solid"]').forEach(el => {
+    el.classList.add('mo-col-card');
+    el.addEventListener('click', e => {
+      const wasFocused = el.classList.contains('focused');
+      s02.querySelectorAll('.mo-col-card').forEach(c => c.classList.remove('focused'));
+      if (!wasFocused) el.classList.add('focused');
+    });
+  });
+}
+
+// ── 4. S03: ROLE CARDS → click to highlight + 🔀 chips pulse ─────────
+const s03 = slides[3]; // S03 = index 3
+if (s03) {
+  // Strat cards
+  s03.querySelectorAll('.strat-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const active = card.classList.contains('strat-active');
+      s03.querySelectorAll('.strat-card').forEach(c => {
+        c.classList.remove('strat-active');
+        c.style.opacity = '1';
+        c.style.transform = '';
+      });
+      if (!active) {
+        card.classList.add('strat-active');
+        card.style.transform = 'scale(1.02)';
+        s03.querySelectorAll('.strat-card').forEach(c => {
+          if (c !== card) { c.style.opacity = '.45'; }
+        });
+      }
+    });
+  });
+
+  // 🔀 banner: click chips to pulse
+  const banner = s03.querySelector('[style*="background:var(--pale)"]');
+  if (banner) {
+    banner.style.cursor = 'pointer';
+    banner.title = '點擊查看跨議題配對動畫';
+    banner.addEventListener('click', () => {
+      banner.querySelectorAll('[style*="border-radius:4px"]').forEach(chip => {
+        chip.classList.remove('chip-glow');
+        void chip.offsetWidth;
+        chip.classList.add('chip-glow');
+        chip.addEventListener('animationend', () => chip.classList.remove('chip-glow'), {once:true});
+      });
+    });
+  }
+}
+
+// ── 5. S05: SOP STEPS → click to toggle done ─────────────────────────
+const s05 = slides[5]; // S05 = index 5
+if (s05) {
+  s05.querySelectorAll('.sop-step').forEach(step => {
+    step.title = '點擊標記完成';
+    step.addEventListener('click', () => step.classList.toggle('done'));
+  });
+}
+
+// ── 6. S06: ARCH SECTIONS → cross-highlight in letter ────────────────
+const s06 = slides[6]; // S06 = index 6
+if (s06) {
+  const colors = { '①': 'var(--dark)', '②': 'var(--grape)', '③': 'var(--mid)' };
+  const labels = s06.querySelectorAll('[style*="font-size:14px"][style*="font-weight:700"]');
+  const paras  = s06.querySelectorAll('.arch-section, [style*="display:flex"][style*="gap:8px"]');
+
+  // Mark paragraphs in the letter
+  s06.querySelectorAll('[style*="gap:8px"][style*="flex:1"]').forEach((p, i) => {
+    p.dataset.section = i;
+    p.style.cursor = 'pointer';
+    p.style.borderRadius = '6px';
+    p.style.padding = '4px 6px';
+    p.style.transition = 'background .2s ease';
+  });
+
+  // Left labels click
+  labels.forEach((lbl, i) => {
+    const num = ['①','②','③'][i];
+    if (!num) return;
+    lbl.style.cursor = 'pointer';
+    lbl.addEventListener('click', () => {
+      const paras = s06.querySelectorAll('[data-section]');
+      paras.forEach(p => p.style.background = '');
+      const target = s06.querySelector(`[data-section="${i}"]`);
+      if (target) {
+        const col = Object.values(colors)[i];
+        target.style.background = `rgba(123,33,119,.07)`;
+        target.style.outline = `2px solid ${col}`;
+        target.style.outlineOffset = '2px';
+        setTimeout(() => {
+          target.style.outline = '';
+          target.style.background = '';
+        }, 2200);
+      }
+    });
+  });
+}
+
+// ── 7. S04: ROLE CARDS → click flow highlight ────────────────────────
+const s04 = slides[4]; // S04 = index 4
+if (s04) {
+  s04.querySelectorAll('.role-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const active = card.classList.contains('role-active');
+      s04.querySelectorAll('.role-card').forEach(c => {
+        c.classList.remove('role-active');
+        c.style.opacity = '1';
+        c.style.transform = '';
+        c.style.boxShadow = '';
+      });
+      if (!active) {
+        card.classList.add('role-active');
+        card.style.transform = 'translateY(-4px) scale(1.02)';
+        card.style.boxShadow = '0 8px 24px rgba(123,33,119,.25)';
+        s04.querySelectorAll('.role-card').forEach(c => {
+          if (c !== card) c.style.opacity = '.4';
+        });
+      }
+    });
+  });
+}
+
+})();
+</script>
+
+
+<script>
+(function() {
+
+// ── Event descriptions for S02 ────────────────────────────────────────
+const EV_DATA = {
+  '2/6':  { name:'零容忍割禮日', cat:'💜 女性賦權', color:'#7B2177',
+    desc:'國際零容忍女性生殖器切割日。全球約 2 億名女性曾遭受 FGM，烏干達農村仍有案例。倡導終止這項侵害女性身心健康的傳統陋習。' },
+  '3/8':  { name:'國際婦女節', cat:'💜 女性賦權', color:'#7B2177',
+    desc:'每年慶祝女性在社會、政治與經濟領域的成就，同時呼籲推動性別平等。聯合國自 1977 年起正式認定，是全球最具影響力的性別倡議節日。' },
+  '3/22': { name:'世界水資源日', cat:'💧 水資源', color:'#1A7A78',
+    desc:'聯合國 1993 年設立，提醒全球關注淡水資源永續管理。烏干達農村約 40% 人口仍缺乏安全飲用水，女性每天平均步行 6 公里取水。' },
+  '4/22': { name:'地球日', cat:'🌱 農村培力', color:'#B05000',
+    desc:'全球最大環境運動，1970 年創立。氣候變遷導致烏干達旱季延長、糧食不穩定，農村培力與永續農業是回應氣候危機的重要途徑。' },
+  '5/28': { name:'月經衛生日', cat:'💜 女性賦權', color:'#7B2177',
+    desc:'倡導打破月經禁忌，確保每位女性都有安全、有尊嚴的月經管理。烏干達每 10 名女童中有 4 名因缺乏衛生用品而在生理期缺課，長期累積導致輟學。' },
+  '6/5':  { name:'世界環境日', cat:'🌱 農村培力', color:'#B05000',
+    desc:'聯合國環境規劃署主導，每年設定全球環境主題。關注生態系統保護與永續農業，與烏干達農村培力計畫的土地保育目標高度契合。' },
+  '6/16': { name:'非洲兒童日', cat:'📚 教育', color:'#1A4A70',
+    desc:'非洲聯盟設立，紀念 1976 年索維托起義遇難學童，呼籲保護非洲兒童的教育與生存權。烏干達仍有近 30% 的女童無法完成小學教育。' },
+  '9/8':  { name:'國際識字日', cat:'📚 教育', color:'#1A4A70',
+    desc:'聯合國教科文組織 1966 年設立，推動全球識字率提升。烏干達農村女童識字率僅約 65%，遠低於城市平均，房角石計畫直接回應此議題。' },
+  '10/11':{ name:'國際女孩日', cat:'💜 女性賦權 ✕ 📚 教育', color:'#7B2177',
+    desc:'聯合國 2012 年設立，關注女孩面臨的特殊挑戰：童婚、性別暴力、教育不平等。橫跨女性賦權與教育兩個議題，是跨議題配對的最佳節點。' },
+  '10/17':{ name:'消除貧困日', cat:'🌱 農村培力', color:'#B05000',
+    desc:'聯合國 1993 年設立，呼籲終結所有形式的貧困。農村培力——包括待用課程、農業技術訓練——是協助烏干達農民脫貧的核心策略。' },
+  '11/19':{ name:'世界廁所日', cat:'💧 水資源', color:'#1A7A78',
+    desc:'聯合國 2013 年設立，關注全球衛生設施不足。全球仍有 37 億人缺乏安全廁所，烏干達農村女性與學童首當其衝，WaSH 計畫是解方。' },
+  '11/25':{ name:'消除婦女暴力日', cat:'💜 女性賦權', color:'#7B2177',
+    desc:'聯合國設立，開啟每年 11/25–12/10「橙色 16 天」倡議活動。呼籲終止對女性的一切形式暴力，是女性賦權倡議最重要的行動窗口。' },
+  '12/10':{ name:'世界人權日', cat:'💜 女性賦權', color:'#7B2177',
+    desc:'1948 年《世界人權宣言》通過紀念日。女性賦權是核心人權議題，此日結合「橙色 16 天」收尾，是年末倡議發文的強力時間點。' },
+};
+
+// Build tooltip DOM
+const tt = document.createElement('div');
+tt.id = 'ev-tooltip';
+tt.innerHTML = `
+  <div id="ev-tooltip-head">
+    <span id="ev-tooltip-date"></span>
+    <span id="ev-tooltip-name"></span>
+    <span id="ev-tooltip-cat"></span>
+    <button id="ev-tooltip-close">✕</button>
+  </div>
+  <div id="ev-tooltip-body"></div>
+`;
+document.body.appendChild(tt);
+
+document.getElementById('ev-tooltip-close').onclick = hideTooltip;
+
+function showTooltip(el, data) {
+  document.getElementById('ev-tooltip-head').style.background = data.color;
+  document.getElementById('ev-tooltip-date').textContent = el.querySelector('.mo-ev-date')?.textContent || '';
+  document.getElementById('ev-tooltip-name').textContent = data.name;
+  document.getElementById('ev-tooltip-cat').textContent  = data.cat;
+  document.getElementById('ev-tooltip-body').textContent = data.desc;
+
+  tt.classList.remove('show');
+  tt.style.display = 'block';
+
+  // Position near the element
+  const rect = el.getBoundingClientRect();
+  const tw = 280, th = 160;
+  let left = rect.left + rect.width/2 - tw/2;
+  let top  = rect.bottom + 10;
+
+  // Keep within viewport
+  left = Math.max(12, Math.min(left, window.innerWidth - tw - 12));
+  if (top + th > window.innerHeight - 20) top = rect.top - th - 10;
+
+  tt.style.left = left + 'px';
+  tt.style.top  = top  + 'px';
+  tt.style.width = tw  + 'px';
+
+  requestAnimationFrame(() => tt.classList.add('show'));
+}
+
+function hideTooltip() {
+  tt.classList.remove('show');
+  setTimeout(() => { if (!tt.classList.contains('show')) tt.style.display = 'none'; }, 220);
+}
+
+// Attach to S02 .mo-ev chips
+const s02 = document.querySelectorAll('.slide')[2]; // cover=0, s01=1, s02=2
+if (s02) {
+  s02.querySelectorAll('.mo-ev').forEach(chip => {
+    const dateEl = chip.querySelector('.mo-ev-date');
+    if (!dateEl) return;
+    const key = dateEl.textContent.trim();
+    const data = EV_DATA[key];
+    if (!data) return;
+
+    chip.title = '點擊了解更多';
+    chip.addEventListener('click', e => {
+      e.stopPropagation();
+      if (tt.classList.contains('show') &&
+          document.getElementById('ev-tooltip-date').textContent === key) {
+        hideTooltip();
+      } else {
+        showTooltip(chip, data);
+      }
+    });
+  });
+}
+
+// Close on outside click
+document.addEventListener('click', e => {
+  if (!tt.contains(e.target) && !e.target.closest('.mo-ev')) hideTooltip();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') hideTooltip();
+});
+
+})();
+</script>
 
 </body>
 </html>
