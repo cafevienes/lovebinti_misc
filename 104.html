@@ -1,0 +1,1732 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>104 醫美診所職缺市場分析</title>
+<style>
+:root {
+  --bg: #0f172a;
+  --card: #1e293b;
+  --accent: #f472b6;
+  --accent2: #38bdf8;
+  --text: #f1f5f9;
+  --text-dim: #94a3b8;
+  --border: #334155;
+  --good: #34d399;
+  --warn: #fbbf24;
+  --bad: #f87171;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; padding: 0;
+  background: linear-gradient(180deg, #0b1220 0%, #0f172a 100%);
+  color: var(--text);
+  font-family: -apple-system, "Segoe UI", "Microsoft JhengHei", "PingFang TC", sans-serif;
+  line-height: 1.6;
+}
+.container { max-width: 1300px; margin: 0 auto; padding: 40px 24px 80px; }
+header.hero {
+  text-align: center;
+  padding: 48px 24px 24px;
+  border-bottom: 1px solid var(--border);
+}
+.hero h1 {
+  font-size: 36px;
+  margin: 0 0 12px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero .sub { color: var(--text-dim); font-size: 15px; }
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin: 32px 0;
+}
+.kpi {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+}
+.kpi .label { color: var(--text-dim); font-size: 13px; margin-bottom: 8px; }
+.kpi .value {
+  font-size: 28px;
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--accent2), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.kpi .note { color: var(--text-dim); font-size: 12px; margin-top: 4px; }
+section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px;
+  margin: 24px 0;
+}
+section h2 {
+  margin: 0 0 4px;
+  font-size: 22px;
+  color: var(--accent);
+}
+section .section-desc {
+  color: var(--text-dim);
+  margin: 0 0 20px;
+  font-size: 14px;
+}
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+@media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin-top: 8px;
+}
+.data-table th, .data-table td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.data-table th {
+  background: rgba(56, 189, 248, 0.08);
+  color: var(--accent2);
+  font-weight: 600;
+  font-size: 13px;
+  position: sticky;
+  top: 0;
+}
+.data-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.data-table tbody tr:hover { background: rgba(255,255,255,0.03); }
+.data-table a { color: var(--accent2); text-decoration: none; }
+.data-table a:hover { text-decoration: underline; }
+.bar-row {
+  display: grid;
+  grid-template-columns: 140px 1fr 120px;
+  gap: 12px;
+  align-items: center;
+  margin: 6px 0;
+  font-size: 13px;
+}
+.bar-label { color: var(--text-dim); }
+.bar-track {
+  background: rgba(255,255,255,0.06);
+  border-radius: 4px;
+  height: 18px;
+  overflow: hidden;
+}
+.bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+.bar-value { font-variant-numeric: tabular-nums; color: var(--text); font-size: 13px; }
+.matrix-table th:first-child, .matrix-table td:first-child {
+  background: rgba(244, 114, 182, 0.06);
+  font-weight: 600;
+}
+.heat { padding: 8px 12px; border-radius: 4px; text-align: center; }
+.tab-bar {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 18px;
+}
+.tab {
+  padding: 10px 18px;
+  cursor: pointer;
+  color: var(--text-dim);
+  border-bottom: 2px solid transparent;
+  font-size: 14px;
+  user-select: none;
+}
+.tab:hover { color: var(--text); }
+.tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+.insights {
+  background: rgba(244, 114, 182, 0.06);
+  border-left: 3px solid var(--accent);
+  padding: 16px 20px;
+  border-radius: 4px;
+  margin: 16px 0;
+}
+.insights h4 { margin: 0 0 8px; color: var(--accent); }
+.insights ul { margin: 0; padding-left: 20px; }
+.insights li { margin: 6px 0; color: var(--text); font-size: 14px; }
+.tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  background: rgba(56, 189, 248, 0.15);
+  color: var(--accent2);
+  margin-right: 4px;
+}
+footer {
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 12px;
+  margin-top: 40px;
+  padding: 20px;
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="container" style="padding: 0;">
+    <h1>104 醫美診所職缺市場分析</h1>
+    <div class="sub">資料來源：104 人力銀行「診所」行業 × 醫美關鍵字 · 抓取日 2026-05-02</div>
+  </div>
+</header>
+
+<div class="container">
+
+<div class="kpi-grid">
+  <div class="kpi"><div class="label">總職缺數</div><div class="value">3,392</div><div class="note">來自 511 家診所</div></div>
+  <div class="kpi"><div class="label">月薪中位數</div><div class="value">45,500</div><div class="note">換算可比月薪 (n=2,613)</div></div>
+  <div class="kpi"><div class="label">月薪 P25 ~ P75</div><div class="value">38,000 ~ 64,750</div><div class="note">中段 50% 區間</div></div>
+  <div class="kpi"><div class="label">薪資揭露率</div><div class="value">77%</div><div class="note">非「面議」佔比</div></div>
+</div>
+
+<section>
+  <h2>① 薪資結構總覽</h2>
+  <p class="section-desc">把所有時薪/日薪/年薪都換算成可比月薪（時薪 × 176、年薪 ÷ 12）後的全市場分佈。</p>
+  <div class="two-col">
+    <div>
+      <h4 style="margin-top:0; color: var(--accent2);">薪資類型分佈</h4>
+      <div class="bar-row"><div class="bar-label">月薪</div><div class="bar-track"><div class="bar-fill" style="width:100.0%;background:#3b82f6"></div></div><div class="bar-value">2,369 (69.8%)</div></div>
+<div class="bar-row"><div class="bar-label">面議</div><div class="bar-track"><div class="bar-fill" style="width:32.7%;background:#94a3b8"></div></div><div class="bar-value">775 (22.8%)</div></div>
+<div class="bar-row"><div class="bar-label">時薪</div><div class="bar-track"><div class="bar-fill" style="width:8.4%;background:#f59e0b"></div></div><div class="bar-value">198 (5.8%)</div></div>
+<div class="bar-row"><div class="bar-label">年薪</div><div class="bar-track"><div class="bar-fill" style="width:1.0%;background:#a78bfa"></div></div><div class="bar-value">24 (0.7%)</div></div>
+<div class="bar-row"><div class="bar-label">日薪</div><div class="bar-track"><div class="bar-fill" style="width:0.9%;background:#fb7185"></div></div><div class="bar-value">21 (0.6%)</div></div>
+<div class="bar-row"><div class="bar-label">週薪</div><div class="bar-track"><div class="bar-fill" style="width:0.0%;background:#10b981"></div></div><div class="bar-value">1 (0.0%)</div></div>
+    </div>
+    <div>
+      <h4 style="margin-top:0; color: var(--accent2);">月薪級距分佈（換算後）</h4>
+      <div class="bar-row"><div class="bar-label"><30k</div><div class="bar-track"><div class="bar-fill" style="width:4.2%;background:#f87171"></div></div><div class="bar-value">30 (1.1%)</div></div>
+<div class="bar-row"><div class="bar-label">30~35k</div><div class="bar-track"><div class="bar-fill" style="width:44.0%;background:#22d3ee"></div></div><div class="bar-value">312 (11.9%)</div></div>
+<div class="bar-row"><div class="bar-label">35~40k</div><div class="bar-track"><div class="bar-fill" style="width:62.2%;background:#22d3ee"></div></div><div class="bar-value">441 (16.9%)</div></div>
+<div class="bar-row"><div class="bar-label">40~50k</div><div class="bar-track"><div class="bar-fill" style="width:100.0%;background:#22d3ee"></div></div><div class="bar-value">709 (27.1%)</div></div>
+<div class="bar-row"><div class="bar-label">50~60k</div><div class="bar-track"><div class="bar-fill" style="width:52.0%;background:#22d3ee"></div></div><div class="bar-value">369 (14.1%)</div></div>
+<div class="bar-row"><div class="bar-label">60~80k</div><div class="bar-track"><div class="bar-fill" style="width:60.2%;background:#22d3ee"></div></div><div class="bar-value">427 (16.3%)</div></div>
+<div class="bar-row"><div class="bar-label">80~100k</div><div class="bar-track"><div class="bar-fill" style="width:12.1%;background:#3b82f6"></div></div><div class="bar-value">86 (3.3%)</div></div>
+<div class="bar-row"><div class="bar-label">100~150k</div><div class="bar-track"><div class="bar-fill" style="width:17.8%;background:#f472b6"></div></div><div class="bar-value">126 (4.8%)</div></div>
+<div class="bar-row"><div class="bar-label">150~250k</div><div class="bar-track"><div class="bar-fill" style="width:9.9%;background:#f472b6"></div></div><div class="bar-value">70 (2.7%)</div></div>
+<div class="bar-row"><div class="bar-label">250k+</div><div class="bar-track"><div class="bar-fill" style="width:6.1%;background:#f472b6"></div></div><div class="bar-value">43 (1.6%)</div></div>
+    </div>
+  </div>
+  <div class="insights">
+    <h4>關鍵觀察</h4>
+    <ul>
+      <li><b>40~50k 是市場主流</b>，加上 30~40k 約佔 56%——醫美基層薪資集中在這個區間</li>
+      <li><b>23% 的職缺標「面議」</b>，主要集中在醫師（佔面議職缺七成以上）</li>
+      <li><b>9.1% 的職缺月薪達 100k+</b>，幾乎全是醫師職位</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>② 多維度交叉分析</h2>
+  <p class="section-desc">點擊頁籤切換不同切面。</p>
+
+  <div class="tab-bar">
+    <div class="tab active" data-tab="role">職務類別</div>
+    <div class="tab" data-tab="region">地區</div>
+    <div class="tab" data-tab="city">城市 Top20</div>
+    <div class="tab" data-tab="emp">全職 vs 兼職</div>
+    <div class="tab" data-tab="matrix">職務×地區矩陣</div>
+  </div>
+
+  <div class="tab-pane active" data-pane="role">
+    <table class="data-table sortable"><thead><tr>
+<th>職務類別</th>
+<th>職缺數</th>
+<th>有薪資</th>
+<th>P25</th>
+<th>中位數</th>
+<th>P75</th>
+<th>P90</th>
+<th>最高</th>
+</tr></thead><tbody>
+<tr>
+<td>護理師</td>
+<td class="num">709</td>
+<td class="num">623</td>
+<td class="num">44,000</td>
+<td class="num">50,000</td>
+<td class="num">57,500</td>
+<td class="num">65,000</td>
+<td class="num">130,000</td>
+</tr>
+<tr>
+<td>諮詢師</td>
+<td class="num">611</td>
+<td class="num">515</td>
+<td class="num">49,000</td>
+<td class="num">65,000</td>
+<td class="num">91,000</td>
+<td class="num">135,000</td>
+<td class="num">1,133,000</td>
+</tr>
+<tr>
+<td>行政/櫃檯</td>
+<td class="num">427</td>
+<td class="num">408</td>
+<td class="num">33,000</td>
+<td class="num">36,000</td>
+<td class="num">40,000</td>
+<td class="num">42,500</td>
+<td class="num">121,000</td>
+</tr>
+<tr>
+<td>醫師</td>
+<td class="num">410</td>
+<td class="num">94</td>
+<td class="num">85,000</td>
+<td class="num">217,500</td>
+<td class="num">300,000</td>
+<td class="num">400,000</td>
+<td class="num">625,000</td>
+</tr>
+<tr>
+<td>美容師/醫美師</td>
+<td class="num">398</td>
+<td class="num">375</td>
+<td class="num">37,250</td>
+<td class="num">42,500</td>
+<td class="num">55,000</td>
+<td class="num">66,000</td>
+<td class="num">215,600</td>
+</tr>
+<tr>
+<td>其他</td>
+<td class="num">241</td>
+<td class="num">169</td>
+<td class="num">36,500</td>
+<td class="num">42,500</td>
+<td class="num">56,000</td>
+<td class="num">75,000</td>
+<td class="num">2,200,000</td>
+</tr>
+<tr>
+<td>行銷/設計</td>
+<td class="num">229</td>
+<td class="num">180</td>
+<td class="num">37,250</td>
+<td class="num">40,500</td>
+<td class="num">46,000</td>
+<td class="num">52,500</td>
+<td class="num">385,000</td>
+</tr>
+<tr>
+<td>店長/主管</td>
+<td class="num">167</td>
+<td class="num">76</td>
+<td class="num">55,000</td>
+<td class="num">73,250</td>
+<td class="num">110,000</td>
+<td class="num">150,000</td>
+<td class="num">190,000</td>
+</tr>
+<tr>
+<td>助理</td>
+<td class="num">79</td>
+<td class="num">79</td>
+<td class="num">34,496</td>
+<td class="num">37,500</td>
+<td class="num">40,000</td>
+<td class="num">45,000</td>
+<td class="num">65,000</td>
+</tr>
+<tr>
+<td>藥師</td>
+<td class="num">39</td>
+<td class="num">27</td>
+<td class="num">66,000</td>
+<td class="num">75,000</td>
+<td class="num">96,800</td>
+<td class="num">114,400</td>
+<td class="num">123,200</td>
+</tr>
+<tr>
+<td>會計/財務</td>
+<td class="num">30</td>
+<td class="num">26</td>
+<td class="num">34,500</td>
+<td class="num">37,750</td>
+<td class="num">42,500</td>
+<td class="num">49,000</td>
+<td class="num">51,500</td>
+</tr>
+<tr>
+<td>工讀生</td>
+<td class="num">24</td>
+<td class="num">20</td>
+<td class="num">34,496</td>
+<td class="num">38,104</td>
+<td class="num">39,600</td>
+<td class="num">48,400</td>
+<td class="num">52,800</td>
+</tr>
+<tr>
+<td>業務/開發</td>
+<td class="num">15</td>
+<td class="num">11</td>
+<td class="num">40,000</td>
+<td class="num">52,500</td>
+<td class="num">90,000</td>
+<td class="num">90,000</td>
+<td class="num">715,000</td>
+</tr>
+<tr>
+<td>人資</td>
+<td class="num">11</td>
+<td class="num">10</td>
+<td class="num">39,000</td>
+<td class="num">45,000</td>
+<td class="num">50,000</td>
+<td class="num">100,000</td>
+<td class="num">100,000</td>
+</tr>
+<tr>
+<td>資訊/工程</td>
+<td class="num">2</td>
+<td class="num">—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody></table>
+  </div>
+  <div class="tab-pane" data-pane="region">
+    <table class="data-table sortable"><thead><tr>
+<th>地區</th>
+<th>職缺數</th>
+<th>有薪資</th>
+<th>P25</th>
+<th>中位數</th>
+<th>P75</th>
+<th>最高</th>
+</tr></thead><tbody>
+<tr>
+<td>北部</td>
+<td class="num">2,272</td>
+<td class="num">1,742</td>
+<td class="num">39,500</td>
+<td class="num">47,500</td>
+<td class="num">65,000</td>
+<td class="num">2,200,000</td>
+</tr>
+<tr>
+<td>中部</td>
+<td class="num">571</td>
+<td class="num">447</td>
+<td class="num">36,000</td>
+<td class="num">43,500</td>
+<td class="num">62,500</td>
+<td class="num">1,015,000</td>
+</tr>
+<tr>
+<td>南部</td>
+<td class="num">545</td>
+<td class="num">423</td>
+<td class="num">36,000</td>
+<td class="num">44,000</td>
+<td class="num">58,000</td>
+<td class="num">325,000</td>
+</tr>
+<tr>
+<td>東部離島</td>
+<td class="num">2</td>
+<td class="num">1</td>
+<td class="num">35,000</td>
+<td class="num">35,000</td>
+<td class="num">35,000</td>
+<td class="num">35,000</td>
+</tr>
+<tr>
+<td>其他</td>
+<td class="num">2</td>
+<td class="num">—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody></table>
+  </div>
+  <div class="tab-pane" data-pane="city">
+    <table class="data-table sortable"><thead><tr>
+<th>城市</th>
+<th>職缺數</th>
+<th>中位月薪</th>
+<th>P75</th>
+</tr></thead><tbody>
+<tr>
+<td>台北市大安區</td>
+<td class="num">619</td>
+<td class="num">46,000</td>
+<td class="num">64,750</td>
+</tr>
+<tr>
+<td>台北市中山區</td>
+<td class="num">235</td>
+<td class="num">48,750</td>
+<td class="num">65,000</td>
+</tr>
+<tr>
+<td>桃園市桃園區</td>
+<td class="num">216</td>
+<td class="num">50,000</td>
+<td class="num">69,000</td>
+</tr>
+<tr>
+<td>台中市西屯區</td>
+<td class="num">157</td>
+<td class="num">48,400</td>
+<td class="num">67,500</td>
+</tr>
+<tr>
+<td>台中市西區</td>
+<td class="num">147</td>
+<td class="num">44,000</td>
+<td class="num">66,000</td>
+</tr>
+<tr>
+<td>台北市信義區</td>
+<td class="num">138</td>
+<td class="num">51,000</td>
+<td class="num">67,500</td>
+</tr>
+<tr>
+<td>台北市中正區</td>
+<td class="num">132</td>
+<td class="num">50,000</td>
+<td class="num">65,000</td>
+</tr>
+<tr>
+<td>新北市板橋區</td>
+<td class="num">127</td>
+<td class="num">45,000</td>
+<td class="num">65,000</td>
+</tr>
+<tr>
+<td>台中市南屯區</td>
+<td class="num">112</td>
+<td class="num">41,500</td>
+<td class="num">51,500</td>
+</tr>
+<tr>
+<td>新竹縣竹北市</td>
+<td class="num">111</td>
+<td class="num">50,000</td>
+<td class="num">65,000</td>
+</tr>
+<tr>
+<td>高雄市左營區</td>
+<td class="num">110</td>
+<td class="num">43,250</td>
+<td class="num">59,000</td>
+</tr>
+<tr>
+<td>新竹市</td>
+<td class="num">108</td>
+<td class="num">49,000</td>
+<td class="num">62,000</td>
+</tr>
+<tr>
+<td>台北市松山區</td>
+<td class="num">99</td>
+<td class="num">45,000</td>
+<td class="num">58,333</td>
+</tr>
+<tr>
+<td>桃園市中壢區</td>
+<td class="num">98</td>
+<td class="num">44,500</td>
+<td class="num">65,000</td>
+</tr>
+<tr>
+<td>高雄市鼓山區</td>
+<td class="num">70</td>
+<td class="num">49,000</td>
+<td class="num">67,500</td>
+</tr>
+<tr>
+<td>台中市北屯區</td>
+<td class="num">65</td>
+<td class="num">41,636</td>
+<td class="num">59,000</td>
+</tr>
+<tr>
+<td>高雄市新興區</td>
+<td class="num">53</td>
+<td class="num">45,750</td>
+<td class="num">66,000</td>
+</tr>
+<tr>
+<td>台南市中西區</td>
+<td class="num">52</td>
+<td class="num">47,750</td>
+<td class="num">65,000</td>
+</tr>
+<tr>
+<td>新北市新店區</td>
+<td class="num">44</td>
+<td class="num">43,000</td>
+<td class="num">52,500</td>
+</tr>
+<tr>
+<td>新北市三重區</td>
+<td class="num">44</td>
+<td class="num">43,250</td>
+<td class="num">50,375</td>
+</tr>
+</tbody></table>
+  </div>
+  <div class="tab-pane" data-pane="emp">
+    <table class="data-table sortable"><thead><tr>
+<th>僱用類型</th>
+<th>職缺數</th>
+<th>有薪資</th>
+<th>中位月薪</th>
+<th>P75</th>
+<th>最高(換算)</th>
+</tr></thead><tbody>
+<tr>
+<td>全職</td>
+<td class="num">3,087</td>
+<td class="num">2,377</td>
+<td class="num">45,500</td>
+<td class="num">62,500</td>
+<td class="num">1,015,000</td>
+</tr>
+<tr>
+<td>兼職/兼任</td>
+<td class="num">305</td>
+<td class="num">236</td>
+<td class="num">44,000</td>
+<td class="num">96,800</td>
+<td class="num">2,200,000</td>
+</tr>
+</tbody></table>
+    <div class="insights" style="margin-top: 16px;">
+      <h4>觀察</h4>
+      <ul>
+        <li>兼職時薪換算成月薪後常常超過全職——但實際工時遠少於 176 小時，名義數字僅供比較參考</li>
+        <li>醫師大量採時薪兼任制，這也是醫美業的成本結構特色</li>
+      </ul>
+    </div>
+  </div>
+  <div class="tab-pane" data-pane="matrix">
+    <p class="section-desc" style="margin-top:0;">交叉表：職務類別 × 地區 的月薪中位數 (NTD)</p>
+    <table class="data-table matrix-table"><thead><tr>
+<th>職務 \ 地區</th>
+<th>北部</th>
+<th>中部</th>
+<th>南部</th>
+</tr></thead><tbody>
+<tr>
+<td>護理師</td>
+<td class="num heat" style="background:rgba(244, 114, 182, 0.09)">50,450</td>
+<td class="num heat" style="background:rgba(244, 114, 182, 0.09)">46,500</td>
+<td class="num heat" style="background:rgba(244, 114, 182, 0.09)">47,750</td>
+</tr>
+<tr>
+<td>諮詢師</td>
+<td class="num heat" style="background:rgba(244, 114, 182, 0.12)">65,000</td>
+<td class="num heat" style="background:rgba(244, 114, 182, 0.12)">66,000</td>
+<td class="num heat" style="background:rgba(244, 114, 182, 0.12)">65,000</td>
+</tr>
+<tr>
+<td>行政/櫃檯</td>
+<td class="num heat" style="background:rgba(244, 114, 182, 0.07)">36,500</td>
+<td class="num heat" style="background:rgba(244, 114, 182, 0.06)">35,000</td>
+<td class="num heat" style="background:rgba(244, 114, 182, 0.06)">34,625</td>
+</tr>
+<tr>
+<td>醫師</td>
+<td class="num heat" style="background:rgba(244, 114, 182, 0.37)">200,000</td>
+<td class="num heat" style="background:rgba(244, 114, 182, 0.45)">243,800</td>
+<td class="num heat" style="background:rgba(244, 114, 182, 0.41)">220,000</td>
+</tr>
+<tr>
+<td>美容師/醫美師</td>
+<td class="num heat" style="background:rgba(244, 114, 182, 0.08)">45,000</td>
+<td class="num heat" style="background:rgba(244, 114, 182, 0.07)">39,750</td>
+<td class="num heat" style="background:rgba(244, 114, 182, 0.08)">41,000</td>
+</tr>
+<tr>
+<td>其他</td>
+<td class="num heat" style="background:rgba(244, 114, 182, 0.08)">44,625</td>
+<td class="num heat" style="background:rgba(244, 114, 182, 0.07)">40,000</td>
+<td class="num heat" style="background:rgba(244, 114, 182, 0.08)">42,500</td>
+</tr>
+<tr>
+<td>行銷/設計</td>
+<td class="num heat" style="background:rgba(244, 114, 182, 0.08)">42,250</td>
+<td class="num heat" style="background:rgba(244, 114, 182, 0.07)">40,000</td>
+<td class="num heat" style="background:rgba(244, 114, 182, 0.07)">40,000</td>
+</tr>
+<tr>
+<td>店長/主管</td>
+<td class="num heat" style="background:rgba(244, 114, 182, 0.13)">71,500</td>
+<td class="num heat" style="background:rgba(244, 114, 182, 0.18)">100,000</td>
+<td class="num heat" style="background:rgba(244, 114, 182, 0.12)">62,750</td>
+</tr>
+</tbody></table>
+    <div class="insights" style="margin-top: 16px;">
+      <h4>觀察</h4>
+      <ul>
+        <li><b>店長中部中位數高於北部</b>——中部頭部診所 (聖宜、晶鑽等) 對店長加碼明顯</li>
+        <li><b>諮詢師三區薪資相當</b>——抽成制讓地理因素影響有限</li>
+        <li><b>醫師中部中位數最高</b>，反映中部醫美診所搶人激烈</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>③ 雇主端深度分析</h2>
+  <p class="section-desc">誰開最多缺、誰給最高、誰最受求職者青睞。</p>
+  <div class="tab-bar">
+    <div class="tab active" data-tab="co-volume">開缺數 Top30</div>
+    <div class="tab" data-tab="co-pay">給薪最高 Top15 <span class="tag">n≥5</span></div>
+    <div class="tab" data-tab="co-attract">最吸引求職者 Top15 <span class="tag">n≥10</span></div>
+  </div>
+  <div class="tab-pane active" data-pane="co-volume">
+    <table class="data-table sortable"><thead><tr>
+<th>公司</th>
+<th>職缺數</th>
+<th>中位月薪</th>
+<th>P75</th>
+<th>總應徵人數</th>
+</tr></thead><tbody>
+<tr>
+<td>聖宜醫美集團_聖宜診所</td>
+<td class="num">137</td>
+<td class="num">62,000</td>
+<td class="num">70,000</td>
+<td class="num">366</td>
+</tr>
+<tr>
+<td>星醫美學股份有限公司</td>
+<td class="num">133</td>
+<td class="num">55,000</td>
+<td class="num">65,000</td>
+<td class="num">423</td>
+</tr>
+<tr>
+<td>安妞美學診所</td>
+<td class="num">91</td>
+<td class="num">49,000</td>
+<td class="num">55,000</td>
+<td class="num">159</td>
+</tr>
+<tr>
+<td>君綺診所</td>
+<td class="num">63</td>
+<td class="num">60,000</td>
+<td class="num">95,000</td>
+<td class="num">323</td>
+</tr>
+<tr>
+<td>光澤診所</td>
+<td class="num">58</td>
+<td class="num">54,750</td>
+<td class="num">56,000</td>
+<td class="num">237</td>
+</tr>
+<tr>
+<td>采醫形象醫學股份有限公司</td>
+<td class="num">56</td>
+<td class="num">42,000</td>
+<td class="num">83,000</td>
+<td class="num">49</td>
+</tr>
+<tr>
+<td>維格醫美集團_自由維格診所</td>
+<td class="num">47</td>
+<td class="num">36,750</td>
+<td class="num">45,000</td>
+<td class="num">195</td>
+</tr>
+<tr>
+<td>原美學診所</td>
+<td class="num">45</td>
+<td class="num">33,000</td>
+<td class="num">114,400</td>
+<td class="num">222</td>
+</tr>
+<tr>
+<td>品維維健康美學診所</td>
+<td class="num">39</td>
+<td class="num">35,500</td>
+<td class="num">39,600</td>
+<td class="num">36</td>
+</tr>
+<tr>
+<td>康博集團_美加時尚美醫診所</td>
+<td class="num">36</td>
+<td class="num">60,000</td>
+<td class="num">115,000</td>
+<td class="num">175</td>
+</tr>
+<tr>
+<td>順風生醫集團_順風美學診所</td>
+<td class="num">36</td>
+<td class="num">44,750</td>
+<td class="num">50,000</td>
+<td class="num">69</td>
+</tr>
+<tr>
+<td>晶緻美學診所</td>
+<td class="num">33</td>
+<td class="num">38,000</td>
+<td class="num">49,500</td>
+<td class="num">236</td>
+</tr>
+<tr>
+<td>桃統書拉密美學診所</td>
+<td class="num">33</td>
+<td class="num">42,250</td>
+<td class="num">47,500</td>
+<td class="num">16</td>
+</tr>
+<tr>
+<td>守葳診所</td>
+<td class="num">31</td>
+<td class="num">55,000</td>
+<td class="num">140,000</td>
+<td class="num">158</td>
+</tr>
+<tr>
+<td>時尚假期診所</td>
+<td class="num">30</td>
+<td class="num">41,500</td>
+<td class="num">51,500</td>
+<td class="num">144</td>
+</tr>
+<tr>
+<td>璧時尚醫美診所</td>
+<td class="num">29</td>
+<td class="num">50,000</td>
+<td class="num">59,000</td>
+<td class="num">112</td>
+</tr>
+<tr>
+<td>巴黎國際.長春醫療體系_巴黎國際長春診所</td>
+<td class="num">28</td>
+<td class="num">69,000</td>
+<td class="num">70,000</td>
+<td class="num">182</td>
+</tr>
+<tr>
+<td>教主整形外科診所</td>
+<td class="num">28</td>
+<td class="num">35,200</td>
+<td class="num">45,000</td>
+<td class="num">37</td>
+</tr>
+<tr>
+<td>晶鑽診所</td>
+<td class="num">28</td>
+<td class="num">70,000</td>
+<td class="num">200,000</td>
+<td class="num">139</td>
+</tr>
+<tr>
+<td>奈思診所</td>
+<td class="num">27</td>
+<td class="num">50,500</td>
+<td class="num">60,000</td>
+<td class="num">185</td>
+</tr>
+<tr>
+<td>凡登整形外科診所</td>
+<td class="num">26</td>
+<td class="num">45,000</td>
+<td class="num">50,000</td>
+<td class="num">52</td>
+</tr>
+<tr>
+<td>首爾醫美整形_首爾醫美診所</td>
+<td class="num">26</td>
+<td class="num">48,750</td>
+<td class="num">140,000</td>
+<td class="num">112</td>
+</tr>
+<tr>
+<td>彤顏診所</td>
+<td class="num">25</td>
+<td class="num">52,500</td>
+<td class="num">57,500</td>
+<td class="num">100</td>
+</tr>
+<tr>
+<td>御美妍診所</td>
+<td class="num">25</td>
+<td class="num">44,750</td>
+<td class="num">95,000</td>
+<td class="num">65</td>
+</tr>
+<tr>
+<td>艾蜜莉美學診所</td>
+<td class="num">25</td>
+<td class="num">40,000</td>
+<td class="num">60,000</td>
+<td class="num">94</td>
+</tr>
+<tr>
+<td>己研美學診所</td>
+<td class="num">23</td>
+<td class="num">42,000</td>
+<td class="num">67,500</td>
+<td class="num">195</td>
+</tr>
+<tr>
+<td>靚世紀醫美診所</td>
+<td class="num">22</td>
+<td class="num">65,000</td>
+<td class="num">77,500</td>
+<td class="num">100</td>
+</tr>
+<tr>
+<td>存奕美學診所</td>
+<td class="num">21</td>
+<td class="num">61,000</td>
+<td class="num">100,000</td>
+<td class="num">158</td>
+</tr>
+<tr>
+<td>美無極美學診所</td>
+<td class="num">21</td>
+<td class="num">45,000</td>
+<td class="num">55,000</td>
+<td class="num">53</td>
+</tr>
+<tr>
+<td>陽光燦亮診所</td>
+<td class="num">21</td>
+<td class="num">60,000</td>
+<td class="num">115,000</td>
+<td class="num">49</td>
+</tr>
+</tbody></table>
+  </div>
+  <div class="tab-pane" data-pane="co-pay">
+    <table class="data-table sortable"><thead><tr>
+<th>公司</th>
+<th>職缺數</th>
+<th>中位月薪</th>
+<th>P75</th>
+</tr></thead><tbody>
+<tr>
+<td>鉑金美醫診所</td>
+<td class="num">10</td>
+<td class="num">192,500</td>
+<td class="num">625,000</td>
+</tr>
+<tr>
+<td>葵芮蓓緹醫美診所</td>
+<td class="num">5</td>
+<td class="num">95,000</td>
+<td class="num">1,133,000</td>
+</tr>
+<tr>
+<td>皮醫師診所</td>
+<td class="num">5</td>
+<td class="num">93,250</td>
+<td class="num">119,000</td>
+</tr>
+<tr>
+<td>好萊塢診所</td>
+<td class="num">11</td>
+<td class="num">92,500</td>
+<td class="num">200,000</td>
+</tr>
+<tr>
+<td>全美診所</td>
+<td class="num">15</td>
+<td class="num">90,000</td>
+<td class="num">97,500</td>
+</tr>
+<tr>
+<td>微媞時尚診所</td>
+<td class="num">6</td>
+<td class="num">89,750</td>
+<td class="num">90,000</td>
+</tr>
+<tr>
+<td>晨悅診所</td>
+<td class="num">5</td>
+<td class="num">85,000</td>
+<td class="num">500,000</td>
+</tr>
+<tr>
+<td>閔簡之研醫美診所</td>
+<td class="num">9</td>
+<td class="num">80,000</td>
+<td class="num">80,000</td>
+</tr>
+<tr>
+<td>HALO_勤診所</td>
+<td class="num">6</td>
+<td class="num">75,000</td>
+<td class="num">105,000</td>
+</tr>
+<tr>
+<td>鉑美妍整形醫美診所</td>
+<td class="num">10</td>
+<td class="num">72,500</td>
+<td class="num">110,000</td>
+</tr>
+<tr>
+<td>千代田八千代診所</td>
+<td class="num">6</td>
+<td class="num">70,000</td>
+<td class="num">145,000</td>
+</tr>
+<tr>
+<td>尼斯診所</td>
+<td class="num">6</td>
+<td class="num">70,000</td>
+<td class="num">95,000</td>
+</tr>
+<tr>
+<td>晶鑽診所</td>
+<td class="num">28</td>
+<td class="num">70,000</td>
+<td class="num">200,000</td>
+</tr>
+<tr>
+<td>巴黎國際.長春醫療體系_巴黎國際長春診所</td>
+<td class="num">28</td>
+<td class="num">69,000</td>
+<td class="num">70,000</td>
+</tr>
+<tr>
+<td>朵儷形象美學診所</td>
+<td class="num">11</td>
+<td class="num">68,000</td>
+<td class="num">166,500</td>
+</tr>
+</tbody></table>
+  </div>
+  <div class="tab-pane" data-pane="co-attract">
+    <table class="data-table sortable"><thead><tr>
+<th>公司</th>
+<th>職缺數</th>
+<th>平均應徵人數/職缺</th>
+<th>中位月薪</th>
+</tr></thead><tbody>
+<tr>
+<td>伊亮妍國際美學診所</td>
+<td class="num">10</td>
+<td class="num">16</td>
+<td class="num">41,250</td>
+</tr>
+<tr>
+<td>朵儷形象美學診所</td>
+<td class="num">11</td>
+<td class="num">16</td>
+<td class="num">68,000</td>
+</tr>
+<tr>
+<td>鉑美妍整形醫美診所</td>
+<td class="num">10</td>
+<td class="num">14</td>
+<td class="num">72,500</td>
+</tr>
+<tr>
+<td>賦真妍皮膚專科診所</td>
+<td class="num">11</td>
+<td class="num">9</td>
+<td class="num">51,000</td>
+</tr>
+<tr>
+<td>青熙美學診所</td>
+<td class="num">15</td>
+<td class="num">9</td>
+<td class="num">42,000</td>
+</tr>
+<tr>
+<td>璞藝美學診所</td>
+<td class="num">10</td>
+<td class="num">9</td>
+<td class="num">38,500</td>
+</tr>
+<tr>
+<td>越診所</td>
+<td class="num">12</td>
+<td class="num">8</td>
+<td class="num">41,250</td>
+</tr>
+<tr>
+<td>己研美學診所</td>
+<td class="num">23</td>
+<td class="num">8</td>
+<td class="num">42,000</td>
+</tr>
+<tr>
+<td>存奕美學診所</td>
+<td class="num">21</td>
+<td class="num">7</td>
+<td class="num">61,000</td>
+</tr>
+<tr>
+<td>藝群台北診所</td>
+<td class="num">11</td>
+<td class="num">7</td>
+<td class="num">63,000</td>
+</tr>
+<tr>
+<td>漾格爾診所</td>
+<td class="num">15</td>
+<td class="num">7</td>
+<td class="num">59,250</td>
+</tr>
+<tr>
+<td>晶緻美學診所</td>
+<td class="num">33</td>
+<td class="num">7</td>
+<td class="num">38,000</td>
+</tr>
+<tr>
+<td>金貞醫學美容診所_김정클리닉</td>
+<td class="num">14</td>
+<td class="num">7</td>
+<td class="num">43,500</td>
+</tr>
+<tr>
+<td>奈思診所</td>
+<td class="num">27</td>
+<td class="num">6</td>
+<td class="num">50,500</td>
+</tr>
+<tr>
+<td>萊賦美學診所</td>
+<td class="num">10</td>
+<td class="num">6</td>
+<td class="num">47,500</td>
+</tr>
+</tbody></table>
+    <div class="insights" style="margin-top: 16px;">
+      <h4>觀察</h4>
+      <ul>
+        <li>「平均應徵人數 / 職缺」是觀察雇主品牌力的代理指標——同樣的工作，越多人投越好</li>
+        <li>應徵數高 + 中位月薪低 = 求職者願意「妥協薪資換品牌」</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>④ 醫師職位專題</h2>
+  <p class="section-desc">總共 410 筆醫師職缺，是醫美業最重要、薪資最高、結構最特別的職位。</p>
+  <h4 style="color: var(--accent2);">全職 vs 兼職醫師薪資對比</h4>
+  <table class="data-table sortable"><thead><tr>
+<th>僱用類型</th>
+<th>職缺數</th>
+<th>有薪資</th>
+<th>中位月薪</th>
+<th>P25</th>
+<th>P75</th>
+<th>最高</th>
+</tr></thead><tbody>
+<tr>
+<td>兼職/兼任</td>
+<td class="num">96</td>
+<td class="num">44</td>
+<td class="num">228,800</td>
+<td class="num">200,000</td>
+<td class="num">300,000</td>
+<td class="num">439,824</td>
+</tr>
+<tr>
+<td>全職</td>
+<td class="num">314</td>
+<td class="num">50</td>
+<td class="num">112,500</td>
+<td class="num">70,000</td>
+<td class="num">250,000</td>
+<td class="num">625,000</td>
+</tr>
+</tbody></table>
+
+  <h4 style="color: var(--accent2); margin-top: 24px;">兼職醫師時薪分佈 (n=29)</h4>
+  <div class="bar-row"><div class="bar-label"><1,000</div><div class="bar-track"><div class="bar-fill" style="width:20.0%;background:#f472b6"></div></div><div class="bar-value">2 (6.9%)</div></div>
+<div class="bar-row"><div class="bar-label">1,000~1,300</div><div class="bar-track"><div class="bar-fill" style="width:90.0%;background:#f472b6"></div></div><div class="bar-value">9 (31.0%)</div></div>
+<div class="bar-row"><div class="bar-label">1,300~1,500</div><div class="bar-track"><div class="bar-fill" style="width:60.0%;background:#f472b6"></div></div><div class="bar-value">6 (20.7%)</div></div>
+<div class="bar-row"><div class="bar-label">1,500~1,700</div><div class="bar-track"><div class="bar-fill" style="width:100.0%;background:#f472b6"></div></div><div class="bar-value">10 (34.5%)</div></div>
+<div class="bar-row"><div class="bar-label">1,700~2,000</div><div class="bar-track"><div class="bar-fill" style="width:20.0%;background:#f472b6"></div></div><div class="bar-value">2 (6.9%)</div></div>
+<div class="bar-row"><div class="bar-label">2,000+</div><div class="bar-track"><div class="bar-fill" style="width:0.0%;background:#f472b6"></div></div><div class="bar-value">0 (0.0%)</div></div>
+
+  <div class="insights">
+    <h4>醫師市場關鍵發現</h4>
+    <ul>
+      <li><b>兼職時薪 1,500 元是業界基準</b>——這個價位職缺最密集，多數診所開的「醫美醫師」都落在 1,500~2,000 區間</li>
+      <li><b>2,000+ 時薪屬高端</b>，通常是有經驗、有客源、能帶業績的醫師</li>
+      <li><b>全職醫師月薪中位 30 萬+</b>，但開缺量遠少於兼職醫師——醫美業偏好「低底薪 + 抽成」的兼診模式</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>⑤ 高薪職缺名單 Top 30</h2>
+  <p class="section-desc">依「換算月薪下限」排序——這是不分職位、最值得關注的高薪機會。</p>
+  <table class="data-table sortable"><thead><tr>
+<th>公司</th>
+<th>職缺</th>
+<th>地區</th>
+<th>職務類別</th>
+<th>原始薪資</th>
+<th>換算月薪</th>
+<th>連結</th>
+</tr></thead><tbody>
+<tr>
+<td>晨悅診所</td>
+<td>【醫美】皮膚科專業醫師</td>
+<td>台中市西屯區</td>
+<td>醫師</td>
+<td>月薪 500,000~500,000</td>
+<td>500,000 ~ 500,000</td>
+<td><a href="https://www.104.com.tw/job/7iha2" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>存奕美學診所</td>
+<td>【台北店】禮聘優質減重醫美醫師</td>
+<td>台北市中山區</td>
+<td>醫師</td>
+<td>月薪 400,000</td>
+<td>400,000 起</td>
+<td><a href="https://www.104.com.tw/job/7yo0c" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>存奕美學診所</td>
+<td>【桃園店】禮聘優質減重醫美醫師</td>
+<td>桃園市桃園區</td>
+<td>醫師</td>
+<td>月薪 400,000</td>
+<td>400,000 起</td>
+<td><a href="https://www.104.com.tw/job/7xg8p" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>琢月診所</td>
+<td>小兒內分泌醫師</td>
+<td>台北市大安區</td>
+<td>醫師</td>
+<td>月薪 400,000</td>
+<td>400,000 起</td>
+<td><a href="https://www.104.com.tw/job/8sjlp" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>時沐診所</td>
+<td>醫美醫生</td>
+<td>台北市大安區</td>
+<td>其他</td>
+<td>時薪 2,000~5,000</td>
+<td>352,000 ~ 880,000</td>
+<td><a href="https://www.104.com.tw/job/8yb4t" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>菲絲美診所</td>
+<td>醫美醫師（有經驗者新店)</td>
+<td>新北市淡水區</td>
+<td>醫師</td>
+<td>時薪 1,800~2,500</td>
+<td>316,800 ~ 440,000</td>
+<td><a href="https://www.104.com.tw/job/8xe28" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>晶鑽診所</td>
+<td>【京站】兼診醫師(週四)(歡迎討論診次)</td>
+<td>台北市大同區</td>
+<td>醫師</td>
+<td>月薪 300,000</td>
+<td>300,000 起</td>
+<td><a href="https://www.104.com.tw/job/8z25w" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>晶鑽診所</td>
+<td>【台中】兼診醫師(週一、二、四、六)(歡迎討論診次)</td>
+<td>台中市西區</td>
+<td>醫師</td>
+<td>月薪 300,000</td>
+<td>300,000 起</td>
+<td><a href="https://www.104.com.tw/job/7xwxu" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>晶鑽診所</td>
+<td>【台北】兼診醫師(週一、六)(歡迎討論診次)</td>
+<td>台北市信義區</td>
+<td>醫師</td>
+<td>月薪 300,000</td>
+<td>300,000 起</td>
+<td><a href="https://www.104.com.tw/job/7xx2z" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>晶鑽診所</td>
+<td>【板橋】兼診醫師(週一、五)(歡迎討論診次)</td>
+<td>新北市板橋區</td>
+<td>醫師</td>
+<td>月薪 300,000</td>
+<td>300,000 起</td>
+<td><a href="https://www.104.com.tw/job/8rvic" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>晶鑽診所</td>
+<td>【高雄】兼診醫師(週三、四、五) (歡迎討論診次)</td>
+<td>高雄市新興區</td>
+<td>醫師</td>
+<td>月薪 300,000</td>
+<td>300,000 起</td>
+<td><a href="https://www.104.com.tw/job/8mz37" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>基隆美詩爾診所</td>
+<td>醫美醫師</td>
+<td>基隆市仁愛區</td>
+<td>醫師</td>
+<td>時薪 1,700~1,700</td>
+<td>299,200 ~ 299,200</td>
+<td><a href="https://www.104.com.tw/job/81zuk" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>時光經典美學診所</td>
+<td>長期醫美看診醫生</td>
+<td>高雄市鼓山區</td>
+<td>其他</td>
+<td>時薪 1,600~1,600</td>
+<td>281,600 ~ 281,600</td>
+<td><a href="https://www.104.com.tw/job/8z9n3" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>101SKIN晶漾診所</td>
+<td>醫師(景安站皮膚科診所)</td>
+<td>新北市中和區</td>
+<td>醫師</td>
+<td>時薪 1,500</td>
+<td>264,000 起</td>
+<td><a href="https://www.104.com.tw/job/8zaca" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>佳立醫美_佳立診所</td>
+<td>醫美醫師</td>
+<td>台中市西屯區</td>
+<td>醫師</td>
+<td>時薪 1,500</td>
+<td>264,000 起</td>
+<td><a href="https://www.104.com.tw/job/7yvge" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>優妮診所</td>
+<td>醫美醫生</td>
+<td>台中市南區</td>
+<td>其他</td>
+<td>時薪 1,500~2,000</td>
+<td>264,000 ~ 352,000</td>
+<td><a href="https://www.104.com.tw/job/8dltd" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>曜妍診所</td>
+<td>台北市醫美診醫師(九月正式上診，有醫美經驗醫師會談保障)</td>
+<td>台北市中正區</td>
+<td>醫師</td>
+<td>時薪 1,500~3,000</td>
+<td>264,000 ~ 528,000</td>
+<td><a href="https://www.104.com.tw/job/5ldya" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>氣質診所</td>
+<td>醫美醫師（兼任）</td>
+<td>台北市大安區</td>
+<td>醫師</td>
+<td>時薪 1,500~2,000</td>
+<td>264,000 ~ 352,000</td>
+<td><a href="https://www.104.com.tw/job/8nbvf" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>菲絲美診所</td>
+<td>醫美醫師（初級淡水店)</td>
+<td>新北市淡水區</td>
+<td>醫師</td>
+<td>時薪 1,500~2,000</td>
+<td>264,000 ~ 352,000</td>
+<td><a href="https://www.104.com.tw/job/54zxl" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>萊賦美學診所</td>
+<td>醫美微整兼任醫師</td>
+<td>台中市北屯區</td>
+<td>醫師</td>
+<td>時薪 1,500~1,500</td>
+<td>264,000 ~ 264,000</td>
+<td><a href="https://www.104.com.tw/job/8j6ja" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>薇歆美學診所</td>
+<td>醫美醫師</td>
+<td>高雄市鹽埕區</td>
+<td>醫師</td>
+<td>時薪 1,500~2,000</td>
+<td>264,000 ~ 352,000</td>
+<td><a href="https://www.104.com.tw/job/8q9sb" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>采醫形象醫學股份有限公司</td>
+<td>整外醫師-台中市西區</td>
+<td>台中市西區</td>
+<td>醫師</td>
+<td>時薪 1,500~2,000</td>
+<td>264,000 ~ 352,000</td>
+<td><a href="https://www.104.com.tw/job/8ic9i" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>采醫形象醫學股份有限公司</td>
+<td>整外醫師-台中市西區</td>
+<td>台中市西區</td>
+<td>醫師</td>
+<td>時薪 1,500~2,000</td>
+<td>264,000 ~ 352,000</td>
+<td><a href="https://www.104.com.tw/job/8ic9m" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>頤森美學診所</td>
+<td>頤森美學診所｜兼任醫美醫師（建立個人醫師品牌首選）</td>
+<td>高雄市鼓山區</td>
+<td>醫師</td>
+<td>時薪 1,500~2,000</td>
+<td>264,000 ~ 352,000</td>
+<td><a href="https://www.104.com.tw/job/8xz2d" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>小蒔代美學診所</td>
+<td>兼職醫師</td>
+<td>台北市大安區</td>
+<td>醫師</td>
+<td>時薪 1,498~3,500</td>
+<td>263,648 ~ 616,000</td>
+<td><a href="https://www.104.com.tw/job/88oju" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>綠洲皮膚/泌尿科診所_ 綠洲診所</td>
+<td>全職醫師(不限科別)</td>
+<td>台中市北屯區</td>
+<td>醫師</td>
+<td>年薪 3,000,000</td>
+<td>250,000 起</td>
+<td><a href="https://www.104.com.tw/job/8xtjm" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>鉑金美醫診所</td>
+<td>醫美醫師（台北）</td>
+<td>台北市信義區</td>
+<td>醫師</td>
+<td>月薪 250,000~1,000,000</td>
+<td>250,000 ~ 1,000,000</td>
+<td><a href="https://www.104.com.tw/job/8jbko" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>鉑金美醫診所</td>
+<td>醫美醫師（台北）無經驗可培訓</td>
+<td>台北市信義區</td>
+<td>醫師</td>
+<td>月薪 250,000~1,000,000</td>
+<td>250,000 ~ 1,000,000</td>
+<td><a href="https://www.104.com.tw/job/8jbkp" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>鉑金美醫診所</td>
+<td>醫美醫師（台北）無經驗可培訓</td>
+<td>台北市信義區</td>
+<td>醫師</td>
+<td>月薪 250,000~1,000,000</td>
+<td>250,000 ~ 1,000,000</td>
+<td><a href="https://www.104.com.tw/job/8jbkq" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>鉑金美醫診所</td>
+<td>醫美醫師（桃園 ）</td>
+<td>桃園市桃園區</td>
+<td>醫師</td>
+<td>月薪 250,000~1,000,000</td>
+<td>250,000 ~ 1,000,000</td>
+<td><a href="https://www.104.com.tw/job/7lhs1" target="_blank">看職缺</a></td>
+</tr>
+</tbody></table>
+</section>
+
+<section>
+  <h2>⑥ 低薪職缺警示 Top 20</h2>
+  <p class="section-desc">月薪上限 &lt; 35k 的職缺，多為兼職、工讀或基層助理職。</p>
+  <table class="data-table sortable"><thead><tr>
+<th>公司</th>
+<th>職缺</th>
+<th>地區</th>
+<th>職務類別</th>
+<th>原始薪資</th>
+<th>換算月薪</th>
+<th>連結</th>
+</tr></thead><tbody>
+<tr>
+<td>容華診所</td>
+<td>【預防醫學/醫美診所兼職護理師 】</td>
+<td>台北市大安區</td>
+<td>護理師</td>
+<td>週薪 1,800~2,200</td>
+<td>7,740 ~ 9,460</td>
+<td><a href="https://www.104.com.tw/job/7xz52" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>艾蜜莉美學診所</td>
+<td>【行銷】影像製作專員</td>
+<td>桃園市中壢區</td>
+<td>行銷/設計</td>
+<td>日薪 800~1,200</td>
+<td>17,600 ~ 26,400</td>
+<td><a href="https://www.104.com.tw/job/8s6zd" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>艾蜜莉美學診所</td>
+<td>【行銷】美編設計專員</td>
+<td>桃園市中壢區</td>
+<td>行銷/設計</td>
+<td>日薪 800~1,200</td>
+<td>17,600 ~ 26,400</td>
+<td><a href="https://www.104.com.tw/job/8s7cp" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>彤顏診所</td>
+<td>【清潔人員】桃園青埔店_彤顏醫美診所</td>
+<td>桃園市中壢區</td>
+<td>其他</td>
+<td>月薪 29,500~29,500</td>
+<td>29,500 ~ 29,500</td>
+<td><a href="https://www.104.com.tw/job/8ze4o" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>晶緻美學診所</td>
+<td>Intern-診所實習生/醫學美容助理(晶緻實習生計畫) </td>
+<td>台北市中山區</td>
+<td>助理</td>
+<td>月薪 29,500~29,500</td>
+<td>29,500 ~ 29,500</td>
+<td><a href="https://www.104.com.tw/job/7hlgu" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>聖宜醫美集團_聖宜診所</td>
+<td>醫美實習生（中壢館）-供宿</td>
+<td>桃園市中壢區</td>
+<td>其他</td>
+<td>月薪 29,500~29,500</td>
+<td>29,500 ~ 29,500</td>
+<td><a href="https://www.104.com.tw/job/82h59" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>聖宜醫美集團_聖宜診所</td>
+<td>醫美實習生（台中館）-供宿</td>
+<td>台中市西區</td>
+<td>其他</td>
+<td>月薪 29,500~29,500</td>
+<td>29,500 ~ 29,500</td>
+<td><a href="https://www.104.com.tw/job/82h5l" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>聖宜醫美集團_聖宜診所</td>
+<td>醫美實習生（忠孝館）-供宿</td>
+<td>台北市大安區</td>
+<td>其他</td>
+<td>月薪 29,500~29,500</td>
+<td>29,500 ~ 29,500</td>
+<td><a href="https://www.104.com.tw/job/82h5n" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>聖宜醫美集團_聖宜診所</td>
+<td>醫美實習生（新竹館）</td>
+<td>新竹市</td>
+<td>其他</td>
+<td>月薪 29,500~29,500</td>
+<td>29,500 ~ 29,500</td>
+<td><a href="https://www.104.com.tw/job/82h5e" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>聖宜醫美集團_聖宜診所</td>
+<td>醫美實習生（桃園館-近桃園火車站）-供宿</td>
+<td>桃園市桃園區</td>
+<td>其他</td>
+<td>月薪 29,500~29,500</td>
+<td>29,500 ~ 29,500</td>
+<td><a href="https://www.104.com.tw/job/82h5h" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>聖宜醫美集團_聖宜診所</td>
+<td>醫美實習生（站前館）-供宿</td>
+<td>台北市中正區</td>
+<td>其他</td>
+<td>月薪 29,500~29,500</td>
+<td>29,500 ~ 29,500</td>
+<td><a href="https://www.104.com.tw/job/82h5o" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>台北_教主醫美整形外科診所</td>
+<td>清潔人員</td>
+<td>台北市大安區</td>
+<td>其他</td>
+<td>月薪 29,500~30,000</td>
+<td>29,500 ~ 30,000</td>
+<td><a href="https://www.104.com.tw/job/7smfr" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>台北_教主醫美整形外科診所</td>
+<td>行銷美編</td>
+<td>台北市大安區</td>
+<td>行銷/設計</td>
+<td>月薪 30,000~30,000</td>
+<td>30,000 ~ 30,000</td>
+<td><a href="https://www.104.com.tw/job/6qlud" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>教主整形外科診所</td>
+<td>清潔服務人員</td>
+<td>台中市西屯區</td>
+<td>其他</td>
+<td>月薪 29,500~30,000</td>
+<td>29,500 ~ 30,000</td>
+<td><a href="https://www.104.com.tw/job/7rih5" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>維格醫美集團_自由維格診所</td>
+<td>醫學美容師｜桃園大興</td>
+<td>桃園市桃園區</td>
+<td>美容師/醫美師</td>
+<td>月薪 29,500~30,000</td>
+<td>29,500 ~ 30,000</td>
+<td><a href="https://www.104.com.tw/job/8g4pj" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>佳醫美人診所</td>
+<td>行政櫃檯_台中店</td>
+<td>台中市西區</td>
+<td>行政/櫃檯</td>
+<td>月薪 30,000~32,000</td>
+<td>30,000 ~ 32,000</td>
+<td><a href="https://www.104.com.tw/job/8czmn" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>御美診所</td>
+<td>醫美診所 【櫃台接待人員】-台北店</td>
+<td>台北市大安區</td>
+<td>行政/櫃檯</td>
+<td>月薪 30,000~32,000</td>
+<td>30,000 ~ 32,000</td>
+<td><a href="https://www.104.com.tw/job/7imcx" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>微醫未來美學診所</td>
+<td>行政櫃台/會計櫃台</td>
+<td>台北市松山區</td>
+<td>行政/櫃檯</td>
+<td>月薪 29,500~32,000</td>
+<td>29,500 ~ 32,000</td>
+<td><a href="https://www.104.com.tw/job/8ts6x" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>懿聖皮膚科診所</td>
+<td>皮膚科診所櫃檯行政/跟診人員</td>
+<td>高雄市三民區</td>
+<td>行政/櫃檯</td>
+<td>月薪 30,000~32,000</td>
+<td>30,000 ~ 32,000</td>
+<td><a href="https://www.104.com.tw/job/73iu5" target="_blank">看職缺</a></td>
+</tr>
+<tr>
+<td>昕澄診所</td>
+<td>【全台最高健檢中心】環境維護管家</td>
+<td>台中市西區</td>
+<td>其他</td>
+<td>月薪 30,000~32,000</td>
+<td>30,000 ~ 32,000</td>
+<td><a href="https://www.104.com.tw/job/8zpj0" target="_blank">看職缺</a></td>
+</tr>
+</tbody></table>
+</section>
+
+<section>
+  <h2>⑦ 給求職者的決策建議</h2>
+  <div class="two-col">
+    <div class="insights" style="margin: 0; border-left-color: var(--good);">
+      <h4 style="color: var(--good);">✓ 該選的策略</h4>
+      <ul>
+        <li><b>諮詢師</b>是非醫療角色中最高薪 (中位 65k, P75 91k)，且學歷門檻相對寬鬆</li>
+        <li><b>護理師</b>跨入醫美比一般醫院起薪高 (中位 50k vs 醫院約 40k)</li>
+        <li><b>店長/主管</b>在中部加碼明顯，二線城市晉升管道反而更快</li>
+        <li>聖宜、君綺、晶鑽等大型集團——薪資中位 60k+，職涯穩定</li>
+      </ul>
+    </div>
+    <div class="insights" style="margin: 0; border-left-color: var(--warn);">
+      <h4 style="color: var(--warn);">⚠ 留意陷阱</h4>
+      <ul>
+        <li>諮詢師高薪多半 <b>含業績抽成</b>，標 12k~220 萬的職缺實際底薪可能很低</li>
+        <li><b>「面議」職缺要當心</b>——醫師以外的職位標面議多半是底薪不漂亮</li>
+        <li>行政/櫃檯月薪中位 36k 低於諮詢師近一倍，但工作內容常被混為一談</li>
+        <li>北部薪資略高，但生活成本差距更大——中南部實質購買力可能更高</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  自動產出 · 資料抓取自 104.com.tw 公開職缺搜尋 API · 換算公式：時薪×176、年薪÷12、日薪×22、週薪×4.3
+</footer>
+
+<script>
+document.querySelectorAll('.tab-bar').forEach(bar => {
+  bar.addEventListener('click', e => {
+    const tab = e.target.closest('.tab');
+    if (!tab) return;
+    const section = bar.parentElement;
+    section.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    section.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    section.querySelector(`[data-pane="${tab.dataset.tab}"]`).classList.add('active');
+  });
+});
+
+// Sortable tables
+document.querySelectorAll('table.sortable').forEach(table => {
+  table.querySelectorAll('th').forEach((th, idx) => {
+    th.style.cursor = 'pointer';
+    th.title = '點擊排序';
+    let asc = false;
+    th.addEventListener('click', () => {
+      const tbody = table.querySelector('tbody');
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+      asc = !asc;
+      rows.sort((a, b) => {
+        const av = a.children[idx].textContent.trim();
+        const bv = b.children[idx].textContent.trim();
+        const an = parseFloat(av.replace(/[,—]/g, ''));
+        const bn = parseFloat(bv.replace(/[,—]/g, ''));
+        if (!isNaN(an) && !isNaN(bn)) return asc ? an - bn : bn - an;
+        return asc ? av.localeCompare(bv) : bv.localeCompare(av);
+      });
+      rows.forEach(r => tbody.appendChild(r));
+    });
+  });
+});
+</script>
+
+</body>
+</html>
